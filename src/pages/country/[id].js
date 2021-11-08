@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
+
 import { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import styles from "./Country.module.css";
+import Link from "next/link";
 
 const getCountry = async (id) => {
   const res = await fetch(`https://restcountries.com/v2/alpha/${id}`);
@@ -60,9 +64,6 @@ const Country = ({ country }) => {
         {/* ........... CONTAINER RIGHT : .details_panel ........... */}
         <div className={styles.container_right}>
           <div className={styles.details_panel}>
-            {/* Heading */}
-            <h4 className={styles.details_panel_heading}>Details</h4>
-
             {/* Capital */}
             <div className={styles.details_panel_row}>
               <div className={styles.details_panel_label}>Capital</div>
@@ -80,20 +81,24 @@ const Country = ({ country }) => {
             </div>
 
             {/* Languages */}
-            <div className={styles.details_panel_row}>
-              <div className={styles.details_panel_label}>Languages</div>
-              <div className={styles.details_panel_value}>
-                {country.languages.map(({ name }) => name).join(", ")}
+            {country.languages && country.languages.length && (
+              <div className={styles.details_panel_row}>
+                <div className={styles.details_panel_label}>Languages</div>
+                <div className={styles.details_panel_value}>
+                  {country.languages.map(({ name }) => name).join(", ")}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Currencies */}
-            <div className={styles.details_panel_row}>
-              <div className={styles.details_panel_label}>Currencies</div>
-              <div className={styles.details_panel_value}>
-                {country.currencies.map(({ name }) => name).join(", ")}
+            {country.currencies && country.currencies.length && (
+              <div className={styles.details_panel_row}>
+                <div className={styles.details_panel_label}>Currencies</div>
+                <div className={styles.details_panel_value}>
+                  {country.currencies.map(({ name }) => name).join(", ")}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Native name */}
             <div className={styles.details_panel_row}>
@@ -111,16 +116,17 @@ const Country = ({ country }) => {
                 </div>
 
                 <div className={styles.details_panel_borders_container}>
-                  {borders.map(({ flag, name }) => (
-                    <div
-                      className={styles.details_panel_borders_country}
-                      key={name}
-                    >
-                      <img src={flag} alt={name}></img>
-                      <div className={styles.details_panel_borders_name}>
-                        {name}
-                      </div>
-                    </div>
+                  {borders.map(({ flag, name, alpha3Code }) => (
+                    <Link key={name} href={`/country/${alpha3Code}`}>
+                      <a>
+                        <div className={styles.details_panel_borders_country}>
+                          <img src={flag} alt={name}></img>
+                          <div className={styles.details_panel_borders_name}>
+                            {name}
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
                   ))}
                 </div>
               </div>

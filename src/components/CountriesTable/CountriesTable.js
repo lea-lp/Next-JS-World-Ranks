@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { useState } from "react";
 
 import Link from "next/link";
@@ -42,8 +44,6 @@ const SortArrow = ({ direction }) => {
 };
 
 const CountriesTable = ({ countries }) => {
-  console.log(countries[0]);
-
   const [direction, setDirection] = useState();
   const [value, setValue] = useState();
 
@@ -120,8 +120,8 @@ const CountriesTable = ({ countries }) => {
               <div className={styles.area}>{country.area || 0}</div>
               <div className={styles.currencies}>
                 {country.currencies && country.currencies.length
-                  ? `${country.currencies[0].code} ${country.currencies[0].symbol}`
-                  : "X"}
+                  ? `${country.currencies[0].code} (${country.currencies[0].symbol})`
+                  : ""}
               </div>
             </div>
           </a>

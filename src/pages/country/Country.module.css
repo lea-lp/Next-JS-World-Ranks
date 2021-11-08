@@ -1,10 +1,12 @@
 .overview_panel img {
-  width: 100%;
   border-radius: 4px;
+  border: 1px solid var(--background-color-dark);
+  box-shadow: var(--box-shadow);
+  width: 100%;
 }
 
 .overview_panel {
-  padding: 20px;
+  padding: var(--spacing-md);
   border-radius: 8px;
   box-shadow: var(--box-shadow);
   background-color: var(--background-color-light);
@@ -20,14 +22,14 @@
   text-align: center;
   font-size: 14px;
   font-weight: 300;
-  margin-top: 4px;
-  margin-bottom: 24px;
+  margin-top: var(--spacing-icon);
+  margin-bottom: var(--spacing-xl);
 }
 
 .overview_numbers {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: var(--spacing-lg);
   text-align: center;
 }
 
@@ -43,7 +45,7 @@
 }
 
 .details_panel_heading {
-  padding: 20px;
+  padding: var(--spacing-md);
   padding-bottom: 0;
 
   margin: 0;
@@ -53,26 +55,34 @@
   display: flex;
   justify-content: space-between;
 
-  padding: 20px;
+  padding: var(--spacing-md);
   border-bottom: 1px solid #e0e0e0;
 }
 
 .details_panel_label {
   color: var(--text-color-secondary);
 }
+
+.details_panel_value {
+  max-width: 65%;
+  text-align: end;
+}
+
 .details_panel_borders {
-  padding: 20px;
+  padding: var(--spacing-md);
 }
 
 .details_panel_borders_container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 24px;
+  gap: var(--spacing-xl);
 }
 
 .details_panel_borders img {
   width: 100%;
   border-radius: 4px;
+  border: 1px solid var(--background-color-dark);
+  box-shadow: var(--box-shadow);
 }
 
 .details_panel_borders_country {
@@ -81,20 +91,20 @@
 
 .details_panel_borders_label {
   color: var(--text-color-secondary);
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 24px;
+  gap: var(--spacing-xl);
 }
 
 @media screen and (min-width: 720px) {
   .container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 24px;
+    gap: var(--spacing-xl);
   }
 
   .container_left {

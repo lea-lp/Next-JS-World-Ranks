@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-import { Brightness6Rounded } from "@material-ui/icons";
+import { Brightness6Rounded, Brightness2Rounded } from "@material-ui/icons";
 import styles from "./Layout.module.css";
 
 const Layout = ({ children, title = "World Ranks" }) => {
@@ -65,8 +65,15 @@ const Layout = ({ children, title = "World Ranks" }) => {
           </a>
         </Link>
 
-        <button className={styles.theme_switcher} onClick={switchTheme}>
-          <Brightness6Rounded />
+        <button
+          className={
+            theme === "light"
+              ? styles.theme_switcher_dark
+              : styles.theme_switcher_light
+          }
+          onClick={switchTheme}
+        >
+          {theme === "light" ? <Brightness2Rounded /> : <Brightness6Rounded />}
         </button>
       </header>
 
