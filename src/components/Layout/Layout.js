@@ -36,7 +36,7 @@ const Layout = ({ children, title = "World Ranks" }) => {
 
       <header className={styles.header}>
         <Link href="/">
-          <a>
+          <a style={{ display: "flex" }}>
             <svg
               width="175"
               height="24"
