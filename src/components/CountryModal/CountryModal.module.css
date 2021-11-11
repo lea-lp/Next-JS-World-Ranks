@@ -1,0 +1,123 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview_panel img {
+  border-radius: 4px;
+  border: 1px solid var(--background-color-dark);
+  box-shadow: var(--box-shadow);
+  width: fit-content;
+  max-height: 200px;
+}
+
+.overview_panel {
+  padding: var(--spacing-md);
+  border-radius: 8px 8px 0 0;
+  box-shadow: var(--box-shadow);
+  background-color: var(--background-color-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.overview_name {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 0;
+}
+
+.overview_region {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: var(--spacing-icon);
+  margin-bottom: var(--spacing-xl);
+}
+
+.overview_numbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  text-align: center;
+}
+
+.overview_label {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.details_panel {
+  background-color: var(--background-color-light);
+  box-shadow: var(--box-shadow);
+  border-radius: 0 0 8px 8px;
+}
+
+.details_panel_heading {
+  padding: var(--spacing-md);
+  padding-bottom: 0;
+
+  margin: 0;
+}
+
+.details_panel_row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.details_panel_label {
+  color: var(--text-color-secondary);
+}
+
+.details_panel_value {
+  max-width: 65%;
+  text-align: end;
+}
+
+.details_panel_borders {
+  padding: var(--spacing-md);
+  cursor: pointer;
+}
+
+.details_panel_borders_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  gap: var(--spacing-xl);
+  max-height: 200px;
+  overflow: auto;
+}
+
+.details_panel_borders img {
+  max-width: 75px;
+  border-radius: 4px;
+  border: 1px solid var(--background-color-dark);
+  box-shadow: var(--box-shadow);
+}
+
+.details_panel_borders_country {
+  text-align: center;
+}
+
+.details_panel_borders_name {
+  font-size: 10px;
+}
+
+.details_panel_borders_label {
+  color: var(--text-color-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.container {
+  max-width: 65%;
+}

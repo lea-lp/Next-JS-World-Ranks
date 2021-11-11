@@ -2,3 +2,8 @@
   margin: var(--spacing-md) 0;
   color: var(--text-color-secondary);
 }
+
+#modal-portal {
+  position: relative;
+  z-index: 999;
+}

@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
-import Link from "next/link";
+// import Link from "next/link";
+
+import CountryModal from "../CountryModal/CountryModal";
 
 import {
   KeyboardArrowDownRounded,
@@ -46,6 +48,7 @@ const SortArrow = ({ direction }) => {
 const CountriesTable = ({ countries }) => {
   const [direction, setDirection] = useState();
   const [value, setValue] = useState();
+  const [openModal, setOpenModal] = useState(false);
 
   const orderedCountries = orderBy(countries, value, direction);
 
@@ -109,24 +112,37 @@ const CountriesTable = ({ countries }) => {
       </div>
 
       {orderedCountries.map((country) => (
-        <Link key={country.name} href={`/country/${country.alpha3Code}`}>
-          <a>
-            <div className={styles.row}>
-              <div className={styles.flag}>
-                <img src={country.flag} alt={country.name}></img>
-              </div>
-              <div className={styles.name}>{country.name}</div>
-              <div className={styles.population}>{country.population}</div>
-              <div className={styles.area}>{country.area || 0}</div>
-              <div className={styles.currencies}>
-                {country.currencies && country.currencies.length
-                  ? `${country.currencies[0].code} (${country.currencies[0].symbol})`
-                  : ""}
-              </div>
+        <Fragment key={country.name}>
+          {/* <Link key={country.name} href={`/country/${country.alpha3Code}`}> */}
+          {/* <a> */}
+          <div
+            onClick={() => setOpenModal(country.name)}
+            className={styles.row}
+          >
+            <div className={styles.flag}>
+              <img src={country.flag} alt={country.name}></img>
             </div>
-          </a>
-        </Link>
+            <div className={styles.name}>{country.name}</div>
+            <div className={styles.population}>{country.population}</div>
+            <div className={styles.area}>{country.area || 0}</div>
+            <div className={styles.currencies}>
+              {country.currencies && country.currencies.length
+                ? `${country.currencies[0].code} (${country.currencies[0].symbol})`
+                : ""}
+            </div>
+          </div>
+          {/* </a> */}
+          {/* </Link> */}
+        </Fragment>
       ))}
+
+      {openModal && (
+        <CountryModal
+          country={countries.find((c) => c.name === openModal)}
+          onClose={() => setOpenModal(false)}
+          setOpenModal={setOpenModal}
+        />
+      )}
     </div>
   );
 };

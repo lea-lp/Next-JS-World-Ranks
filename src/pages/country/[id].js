@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 
 import { useState, useEffect } from "react";
@@ -26,7 +25,7 @@ const Country = ({ country }) => {
 
   useEffect(() => {
     getBorders();
-  }, []);
+  }, [country]);
 
   return (
     <Layout title={country.name}>

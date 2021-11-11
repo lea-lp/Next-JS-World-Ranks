@@ -19,17 +19,23 @@ export default function Home({ countries }) {
   };
 
   return (
-    <Layout>
-      <div className={styles.input_container}>
-        <div className={styles.counts}>Found {countries.length} countries</div>
-        <SearchInput
-          placeholder="Filter by name, region or subregion"
-          onChange={onInputChange}
-        />
-      </div>
+    <>
+      <div id="modal-portal"></div>
 
-      <CountriesTable countries={filterCountries} />
-    </Layout>
+      <Layout>
+        <div className={styles.input_container}>
+          <div className={styles.counts}>
+            Found {countries.length} countries
+          </div>
+          <SearchInput
+            placeholder="Filter by name, region or subregion"
+            onChange={onInputChange}
+          />
+        </div>
+
+        <CountriesTable countries={filterCountries} />
+      </Layout>
+    </>
   );
 }
 
