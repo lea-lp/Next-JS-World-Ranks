@@ -15,11 +15,15 @@ import styles from "./CountriesTable.module.css";
 
 const orderBy = (countries, value, direction) => {
   if (direction === "asc") {
-    return [...countries].sort((a, b) => (a[value] > b[value] ? 1 : -1));
+    return [...countries]
+      .filter((i) => i[value])
+      .sort((a, b) => (a[value] > b[value] ? 1 : -1));
   }
 
   if (direction === "desc") {
-    return [...countries].sort((a, b) => (a[value] > b[value] ? -1 : 1));
+    return [...countries]
+      .filter((i) => i[value])
+      .sort((a, b) => (a[value] > b[value] ? -1 : 1));
   }
 
   return countries;
@@ -102,12 +106,12 @@ const CountriesTable = ({ countries }) => {
         </button>
 
         <button
-          className={styles.heading_currencies}
-          onClick={() => setValueAndDirection("currencies")}
+          className={styles.heading_gini}
+          onClick={() => setValueAndDirection("gini")}
         >
-          <div>Currency</div>
+          <div>Gini</div>
 
-          {value === "currencies" && <SortArrow direction={direction} />}
+          {value === "gini" && <SortArrow direction={direction} />}
         </button>
       </div>
 
@@ -125,10 +129,24 @@ const CountriesTable = ({ countries }) => {
             <div className={styles.name}>{country.name}</div>
             <div className={styles.population}>{country.population}</div>
             <div className={styles.area}>{country.area || 0}</div>
-            <div className={styles.currencies}>
-              {country.currencies && country.currencies.length
-                ? `${country.currencies[0].code} (${country.currencies[0].symbol})`
-                : ""}
+            <div className={styles.gini}>
+              {country.gini ? (
+                <>
+                  <div className={styles.gini_bar}>
+                    <div
+                      className={styles.gini_bar_indicator}
+                      style={{
+                        width: country.gini,
+                      }}
+                    />
+                  </div>
+                  <div className={styles.gini_percent}>
+                    {country.gini.toFixed()} %
+                  </div>
+                </>
+              ) : (
+                <div className={styles.gini_percent}>no data</div>
+              )}
             </div>
           </div>
           {/* </a> */}

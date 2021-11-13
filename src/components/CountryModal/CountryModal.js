@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import styles from "./CountryModal.module.css";
+import { motion } from "framer-motion";
 
 const getCountry = async (id) => {
   const res = await fetch(`https://restcountries.com/v2/alpha/${id}`);
@@ -13,6 +14,7 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
   const [clickableCountry, setClickableCountry] = useState(false);
 
   const [borders, setBorders] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   const getBorders = async () => {
     const borders =
@@ -20,9 +22,11 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
         ? await Promise.all(country.borders.map((border) => getCountry(border)))
         : [];
     setBorders(borders);
+    setLoader(false);
   };
 
   useEffect(() => {
+    setLoader(true);
     getBorders();
   }, [country]);
 
@@ -31,7 +35,13 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
       className={styles.modal}
       onClick={() => !clickableCountry && onClose()}
     >
-      <div className={styles.container}>
+      <motion.div
+        className={styles.container}
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+      >
         {/* ........... CONTAINER TOP : .overview_panel ........... */}
         {/* ..... Main infos ..... */}
         <div className={styles.overview_panel}>
@@ -102,6 +112,16 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
             </div>
           </div>
 
+          {/* Currency */}
+          {country.currencies && country.currencies.length && (
+            <div className={styles.details_panel_row}>
+              <div className={styles.details_panel_label}>Currency</div>
+              <div className={styles.details_panel_value}>
+                {country.currencies[0].code} (${country.currencies[0].symbol})
+              </div>
+            </div>
+          )}
+
           {/* Neighbouring countries */}
           {country.borders && country.borders.length && (
             <div className={styles.details_panel_borders}>
@@ -109,12 +129,34 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
                 Neighbouring countries
               </div>
 
+              {loader && (
+                <div className={styles.details_panel_loader_container}>
+                  <motion.div
+                    className={styles.details_panel_loader}
+                    animate={{
+                      rotate: 360,
+                      borderRadius: ["10%", "50%", "10%"],
+                      opacity: [0.5, 1, 0.5],
+                      scale: [1, 1.5, 1],
+                    }}
+                    transition={{
+                      ease: "easeOut",
+                      duration: 2,
+                      repeat: Infinity,
+                    }}
+                  />
+                </div>
+              )}
+
               <div className={styles.details_panel_borders_container}>
                 {borders.map(({ flag, name }) => (
                   <div
                     key={name}
                     className={styles.details_panel_borders_country}
-                    onClick={() => setOpenModal(name)}
+                    onClick={() => {
+                      setBorders([]);
+                      setOpenModal(name);
+                    }}
                     onMouseEnter={() =>
                       !clickableCountry && setClickableCountry(true)
                     }
@@ -132,7 +174,7 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>,
     document.getElementById("modal-portal")
   );
