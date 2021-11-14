@@ -6,8 +6,7 @@ import Link from "next/link";
 const getCountry = async (id) => {
   const res = await fetch(`https://restcountries.com/v3.1/alpha/${id}`);
   const country = await res.json();
-
-  return country;
+  return country[0];
 };
 
 const Country = ({ country }) => {
@@ -15,7 +14,7 @@ const Country = ({ country }) => {
 
   const getBorders = async () => {
     const borders =
-      country.borders && country.borders.length
+      country && country.borders && country.borders.length
         ? await Promise.all(country.borders.map((border) => getCountry(border)))
         : [];
     setBorders(borders);
@@ -113,8 +112,8 @@ const Country = ({ country }) => {
                 </div>
 
                 <div className={styles.details_panel_borders_container}>
-                  {borders.map(({ flags, name, alpha3Code }) => (
-                    <Link key={name.common} href={`/country/${alpha3Code}`}>
+                  {borders.map(({ flags, name, cca3 }) => (
+                    <Link key={name.common} href={`/country/${cca3}`}>
                       <a>
                         <div className={styles.details_panel_borders_country}>
                           <img src={flags.svg} alt={name.common}></img>
@@ -140,10 +139,11 @@ export default Country;
 export const getStaticPaths = async () => {
   const res = await fetch("https://restcountries.com/v3.1/all");
   const countries = await res.json();
-
-  const paths = countries.map((country) => ({
-    params: { id: country.alpha3Code },
-  }));
+  const paths = countries.map((country) => {
+    return {
+      params: { id: country.cca3 },
+    };
+  });
 
   return {
     paths,

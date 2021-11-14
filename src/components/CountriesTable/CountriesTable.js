@@ -119,7 +119,7 @@ const CountriesTable = ({ filterCountries, allCountries }) => {
 
       {orderedCountries.map((country) => (
         <Fragment key={country.name.common}>
-          {/* <Link key={country.name.common} href={`/country/${country.alpha3Code}`}> */}
+          {/* <Link key={country.name.common} href={`/country/${country.cca3}`}> */}
           {/* <a> */}
           <div
             onClick={() => setOpenModal(country.name.common)}
