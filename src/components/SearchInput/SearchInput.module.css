@@ -3,7 +3,7 @@
   align-items: center;
 
   background-color: var(--background-color-dark);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   padding-left: var(--spacing-lg);
 
   color: var(--text-color-secondary);

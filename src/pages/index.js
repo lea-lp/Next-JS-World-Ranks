@@ -33,7 +33,10 @@ export default function Home({ countries }) {
           />
         </div>
 
-        <CountriesTable countries={filterCountries} />
+        <CountriesTable
+          filterCountries={filterCountries}
+          allCountries={countries}
+        />
       </Layout>
     </>
   );

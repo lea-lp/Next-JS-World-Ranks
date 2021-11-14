@@ -53,7 +53,8 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
             width={320}
             height={200}
             className={styles.overview_panel_img}
-            blurDataURL
+            blurDataURL={country.flags.svg}
+            placeholder="blur"
           />
           {/* Name */}
           <h1 className={styles.overview_name}>{country.name.common}</h1>
@@ -163,6 +164,7 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
                     className={styles.details_panel_borders_country}
                     onClick={() => {
                       setBorders([]);
+                      setClickableCountry(false);
                       setOpenModal(name.common);
                     }}
                     onMouseEnter={() =>
@@ -172,7 +174,15 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
                       clickableCountry && setClickableCountry(false)
                     }
                   >
-                    <img src={flags.svg} alt={name.common}></img>
+                    <Image
+                      src={flags.svg}
+                      alt={name.common}
+                      width={75}
+                      height={50}
+                      className={styles.overview_panel_img}
+                      blurDataURL={flags.svg}
+                      placeholder="blur"
+                    />
                     <div className={styles.details_panel_borders_name}>
                       {name.common}
                     </div>

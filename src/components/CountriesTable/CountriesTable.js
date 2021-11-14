@@ -52,12 +52,13 @@ const SortArrow = ({ direction }) => {
   }
 };
 
-const CountriesTable = ({ countries }) => {
+const CountriesTable = ({ filterCountries, allCountries }) => {
   const [direction, setDirection] = useState();
   const [value, setValue] = useState();
   const [openModal, setOpenModal] = useState(false);
 
-  const orderedCountries = orderBy(countries, value, direction);
+  const orderedCountries = orderBy(filterCountries, value, direction);
+  const selectedCountry = allCountries.find((c) => c.name.common === openModal);
 
   const switchDirection = () => {
     if (!direction) {
@@ -156,9 +157,9 @@ const CountriesTable = ({ countries }) => {
         </Fragment>
       ))}
 
-      {openModal && (
+      {openModal && selectedCountry && (
         <CountryModal
-          country={countries.find((c) => c.name.common === openModal)}
+          country={selectedCountry}
           onClose={() => setOpenModal(false)}
           setOpenModal={setOpenModal}
         />
