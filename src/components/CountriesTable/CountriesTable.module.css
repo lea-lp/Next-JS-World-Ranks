@@ -14,7 +14,7 @@
 .heading_population,
 .heading_area,
 .heading_gini {
-  flex: 4;
+  flex: 1;
   color: var(--text-color-secondary);
   font-weight: 500;
 
@@ -60,7 +60,7 @@
 .population,
 .area,
 .gini {
-  flex: 4;
+  flex: 1;
 }
 
 .gini {
@@ -90,12 +90,11 @@
 
 .name {
   text-align: left;
+  display: flex;
 }
 
-.flag,
-.heading_flag {
+.flag {
   margin-right: var(--spacing-lg);
-  flex: 1;
   display: flex;
   align-items: center;
 }
@@ -112,8 +111,7 @@
   .heading_area,
   .gini,
   .heading_gini,
-  .flag,
-  .heading_flag {
+  .flag {
     display: none;
   }
 }

@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import styles from "./CountryModal.module.css";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const getCountry = async (id) => {
-  const res = await fetch(`https://restcountries.com/v2/alpha/${id}`);
+  const res = await fetch(`https://restcountries.com/v3.1/alpha/${id}`);
   const country = await res.json();
-
-  return country;
+  return country[0];
 };
 
 export default function CountryModal({ country, onClose, setOpenModal }) {
@@ -18,9 +18,10 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
 
   const getBorders = async () => {
     const borders =
-      country.borders && country.borders.length
+      country && country.borders && country.borders.length
         ? await Promise.all(country.borders.map((border) => getCountry(border)))
         : [];
+
     setBorders(borders);
     setLoader(false);
   };
@@ -46,9 +47,16 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
         {/* ..... Main infos ..... */}
         <div className={styles.overview_panel}>
           {/* Flag */}
-          <img src={country.flag} alt={country.name}></img>
+          <Image
+            src={country.flags.svg}
+            alt={country.name.common}
+            width={320}
+            height={200}
+            className={styles.overview_panel_img}
+            blurDataURL
+          />
           {/* Name */}
-          <h1 className={styles.overview_name}>{country.name}</h1>
+          <h1 className={styles.overview_name}>{country.name.common}</h1>
           {/* Region */}
           <div className={styles.overview_region}>{country.region}</div>
 
@@ -104,11 +112,11 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
             </div>
           )}
 
-          {/* Native name */}
+          {/* Official name */}
           <div className={styles.details_panel_row}>
-            <div className={styles.details_panel_label}>Native name</div>
+            <div className={styles.details_panel_label}>Official name</div>
             <div className={styles.details_panel_value}>
-              {country.nativeName}
+              {country.name.official}
             </div>
           </div>
 
@@ -149,13 +157,13 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
               )}
 
               <div className={styles.details_panel_borders_container}>
-                {borders.map(({ flag, name }) => (
+                {borders.map(({ name, flags }) => (
                   <div
-                    key={name}
+                    key={name.common}
                     className={styles.details_panel_borders_country}
                     onClick={() => {
                       setBorders([]);
-                      setOpenModal(name);
+                      setOpenModal(name.common);
                     }}
                     onMouseEnter={() =>
                       !clickableCountry && setClickableCountry(true)
@@ -164,9 +172,9 @@ export default function CountryModal({ country, onClose, setOpenModal }) {
                       clickableCountry && setClickableCountry(false)
                     }
                   >
-                    <img src={flag} alt={name}></img>
+                    <img src={flags.svg} alt={name.common}></img>
                     <div className={styles.details_panel_borders_name}>
-                      {name}
+                      {name.common}
                     </div>
                   </div>
                 ))}

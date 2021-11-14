@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { Fragment, useState } from "react";
 
 // import Link from "next/link";
@@ -13,17 +11,22 @@ import {
 
 import styles from "./CountriesTable.module.css";
 
-const orderBy = (countries, value, direction) => {
-  if (direction === "asc") {
-    return [...countries]
-      .filter((i) => i[value])
-      .sort((a, b) => (a[value] > b[value] ? 1 : -1));
-  }
+const getGiniValue = (country) => country.gini[Object.keys(country.gini)[0]];
 
-  if (direction === "desc") {
+const sortByValue = (a, b, value, direction) => {
+  const up = direction === "asc" ? 1 : -1;
+  const down = direction === "asc" ? -1 : 1;
+
+  if (value === "gini") return getGiniValue(a) > getGiniValue(b) ? up : down;
+  if (value === "name") return a.name.common > b.name.common ? up : down;
+  return a[value] > b[value] ? up : down;
+};
+
+const orderBy = (countries, value, direction) => {
+  if (direction) {
     return [...countries]
       .filter((i) => i[value])
-      .sort((a, b) => (a[value] > b[value] ? -1 : 1));
+      .sort((a, b) => sortByValue(a, b, value, direction));
   }
 
   return countries;
@@ -74,8 +77,6 @@ const CountriesTable = ({ countries }) => {
   return (
     <div>
       <div className={styles.heading}>
-        <div className={styles.heading_flag}></div>
-
         <button
           className={styles.heading_name}
           onClick={() => setValueAndDirection("name")}
@@ -116,17 +117,17 @@ const CountriesTable = ({ countries }) => {
       </div>
 
       {orderedCountries.map((country) => (
-        <Fragment key={country.name}>
-          {/* <Link key={country.name} href={`/country/${country.alpha3Code}`}> */}
+        <Fragment key={country.name.common}>
+          {/* <Link key={country.name.common} href={`/country/${country.alpha3Code}`}> */}
           {/* <a> */}
           <div
-            onClick={() => setOpenModal(country.name)}
+            onClick={() => setOpenModal(country.name.common)}
             className={styles.row}
           >
-            <div className={styles.flag}>
-              <img src={country.flag} alt={country.name}></img>
+            <div className={styles.name}>
+              <div className={styles.flag}>{country.flag}</div>
+              {country.name.common}
             </div>
-            <div className={styles.name}>{country.name}</div>
             <div className={styles.population}>{country.population}</div>
             <div className={styles.area}>{country.area || 0}</div>
             <div className={styles.gini}>
@@ -136,12 +137,13 @@ const CountriesTable = ({ countries }) => {
                     <div
                       className={styles.gini_bar_indicator}
                       style={{
-                        width: country.gini,
+                        width: getGiniValue(country),
                       }}
                     />
                   </div>
                   <div className={styles.gini_percent}>
-                    {country.gini.toFixed()} %
+                    {getGiniValue(country).toFixed()} % (
+                    {Object.keys(country.gini)[0]})
                   </div>
                 </>
               ) : (
@@ -156,7 +158,7 @@ const CountriesTable = ({ countries }) => {
 
       {openModal && (
         <CountryModal
-          country={countries.find((c) => c.name === openModal)}
+          country={countries.find((c) => c.name.common === openModal)}
           onClose={() => setOpenModal(false)}
           setOpenModal={setOpenModal}
         />

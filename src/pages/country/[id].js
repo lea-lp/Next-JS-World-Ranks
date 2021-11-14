@@ -1,12 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-
 import { useState, useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import styles from "./Country.module.css";
 import Link from "next/link";
 
 const getCountry = async (id) => {
-  const res = await fetch(`https://restcountries.com/v2/alpha/${id}`);
+  const res = await fetch(`https://restcountries.com/v3.1/alpha/${id}`);
   const country = await res.json();
 
   return country;
@@ -28,16 +26,16 @@ const Country = ({ country }) => {
   }, [country]);
 
   return (
-    <Layout title={country.name}>
+    <Layout title={country.name.common}>
       <div className={styles.container}>
         {/* ........... CONTAINER LEFT : .overview_panel ........... */}
         <div className={styles.container_left}>
           {/* ..... Main infos ..... */}
           <div className={styles.overview_panel}>
             {/* Flag */}
-            <img src={country.flag} alt={country.name}></img>
+            <img src={country.flags.svg} alt={country.name.common}></img>
             {/* Name */}
-            <h1 className={styles.overview_name}>{country.name}</h1>
+            <h1 className={styles.overview_name}>{country.name.common}</h1>
             {/* Region */}
             <div className={styles.overview_region}>{country.region}</div>
 
@@ -99,11 +97,11 @@ const Country = ({ country }) => {
               </div>
             )}
 
-            {/* Native name */}
+            {/* Official name */}
             <div className={styles.details_panel_row}>
-              <div className={styles.details_panel_label}>Native name</div>
+              <div className={styles.details_panel_label}>Official name</div>
               <div className={styles.details_panel_value}>
-                {country.nativeName}
+                {country.name.official}
               </div>
             </div>
 
@@ -115,13 +113,13 @@ const Country = ({ country }) => {
                 </div>
 
                 <div className={styles.details_panel_borders_container}>
-                  {borders.map(({ flag, name, alpha3Code }) => (
-                    <Link key={name} href={`/country/${alpha3Code}`}>
+                  {borders.map(({ flags, name, alpha3Code }) => (
+                    <Link key={name.common} href={`/country/${alpha3Code}`}>
                       <a>
                         <div className={styles.details_panel_borders_country}>
-                          <img src={flag} alt={name}></img>
+                          <img src={flags.svg} alt={name.common}></img>
                           <div className={styles.details_panel_borders_name}>
-                            {name}
+                            {name.common}
                           </div>
                         </div>
                       </a>
@@ -140,7 +138,7 @@ const Country = ({ country }) => {
 export default Country;
 
 export const getStaticPaths = async () => {
-  const res = await fetch("https://restcountries.com/v2/all");
+  const res = await fetch("https://restcountries.com/v3.1/all");
   const countries = await res.json();
 
   const paths = countries.map((country) => ({
