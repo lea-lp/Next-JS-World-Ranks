@@ -7,7 +7,7 @@ import { Brightness6Rounded, Brightness2Rounded } from "@material-ui/icons";
 import styles from "./Layout.module.css";
 
 const Layout = ({ children, title = "World Ranks" }) => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -18,7 +18,7 @@ const Layout = ({ children, title = "World Ranks" }) => {
   }, []);
 
   const switchTheme = () =>
-    theme === "light" ? saveTheme("dark") : saveTheme("light");
+    theme === "dark" ? saveTheme("light") : saveTheme("dark");
 
   const saveTheme = (theme) => {
     setTheme(theme);
@@ -67,13 +67,13 @@ const Layout = ({ children, title = "World Ranks" }) => {
 
         <button
           className={
-            theme === "light"
-              ? styles.theme_switcher_dark
-              : styles.theme_switcher_light
+            theme === "dark"
+              ? styles.theme_switcher_light
+              : styles.theme_switcher_dark
           }
           onClick={switchTheme}
         >
-          {theme === "light" ? <Brightness2Rounded /> : <Brightness6Rounded />}
+          {theme === "dark" ? <Brightness6Rounded /> : <Brightness2Rounded />}
         </button>
       </header>
 

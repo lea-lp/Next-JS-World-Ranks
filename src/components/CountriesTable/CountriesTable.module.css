@@ -49,6 +49,8 @@
   box-shadow: var(--box-shadow);
 
   font-weight: 500;
+
+  user-select: none;
 }
 
 .row:hover {
